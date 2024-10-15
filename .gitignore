@@ -1,0 +1,14 @@
+.history/*
+.history
+bin
+bin/*
+Lib
+Lib/*
+Scripts
+Scripts/*
+share
+share/*
+photos/*
+sent_events.json
+uploaded_images.json*
+post_to_nostr.exe
