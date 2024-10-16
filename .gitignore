@@ -12,3 +12,7 @@ photos/*
 sent_events.json
 uploaded_images.json*
 post_to_nostr.exe
+lilo_tormento
+lilo_tormento/*
+key.json
+run_cron.sh

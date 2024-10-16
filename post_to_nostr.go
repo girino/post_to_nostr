@@ -32,9 +32,9 @@ var (
 
 func init() {
 	flag.StringVar(&photoDir, "photoDir", "photos", "Directory containing photos and captions")
-	flag.StringVar(&relays, "relays", "wss://relay.damus.io,wss://nostr-pub.wellorder.net", "Comma-separated list of Nostr relays")
+	flag.StringVar(&relays, "relays", "wss://relay.damus.io,wss://nostr-pub.wellorder.net,wss://nostr.girino.org,wss://wot.girino.org", "Comma-separated list of Nostr relays")
 	flag.StringVar(&privateKey, "privateKey", "", "Your Nostr private key in hex format")
-	flag.StringVar(&mediaServer, "mediaServer", "https://nostr.build", "NIP-96 compliant media server URL")
+	flag.StringVar(&mediaServer, "mediaServer", "https://nostrcheck.girino.org", "NIP-96 compliant media server URL")
 }
 
 // Define UploadedImages and SentEvents types
@@ -46,10 +46,25 @@ func main() {
 	flag.Parse()
 
 	if privateKey == "" {
-		privateKey = os.Getenv("NOSTR_PRIVATE_KEY")
-		if privateKey == "" {
-			log.Fatal("Please provide your Nostr private key using the -privateKey flag or NOSTR_PRIVATE_KEY environment variable")
+		keyFile := "key.json"
+		keyData, err := ioutil.ReadFile(keyFile)
+		if err == nil {
+			var keyMap map[string]string
+			err = json.Unmarshal(keyData, &keyMap)
+			if err == nil {
+				privateKey = keyMap["private_key"]
+			} else {
+				log.Printf("Failed to unmarshal private key from %s: %v", keyFile, err)
+			}
+		} else {
+			log.Printf("Failed to read private key from %s: %v", keyFile, err)
 		}
+	}
+	if privateKey == "" {
+		privateKey = os.Getenv("NOSTR_PRIVATE_KEY")
+	}
+	if privateKey == "" {
+		log.Fatal("Please provide your Nostr private key using the -privateKey flag or NOSTR_PRIVATE_KEY environment variable")
 	}
 
 	pubKey, err := nostr.GetPublicKey(privateKey)
