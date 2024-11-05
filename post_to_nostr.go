@@ -32,9 +32,9 @@ var (
 
 func init() {
 	flag.StringVar(&photoDir, "photoDir", "photos", "Directory containing photos and captions")
-	flag.StringVar(&relays, "relays", "wss://relay.damus.io,wss://nostr-pub.wellorder.net,wss://nostr.girino.org,wss://wot.girino.org", "Comma-separated list of Nostr relays")
+	flag.StringVar(&relays, "relays", "wss://relay.damus.io,wss://nostr-pub.wellorder.net,wss://nostr.girino.org,wss://wot.girino.org,wss://nos.lol,wss://relay.primal.net", "Comma-separated list of Nostr relays")
 	flag.StringVar(&privateKey, "privateKey", "", "Your Nostr private key in hex format")
-	flag.StringVar(&mediaServer, "mediaServer", "https://nostrcheck.girino.org", "NIP-96 compliant media server URL")
+	flag.StringVar(&mediaServer, "mediaServer", "https://nostrcheck.me", "NIP-96 compliant media server URL")
 }
 
 // Define UploadedImages and SentEvents types
@@ -205,7 +205,7 @@ func getPosts(photoDir string) ([]Post, error) {
 		if err != nil {
 			return err
 		}
-		if !info.IsDir() && (strings.HasSuffix(info.Name(), ".jpg") || strings.HasSuffix(info.Name(), ".jpeg") || strings.HasSuffix(info.Name(), ".png")) {
+		if !info.IsDir() && (strings.HasSuffix(info.Name(), ".jpg") || strings.HasSuffix(info.Name(), ".jpeg") || strings.HasSuffix(info.Name(), ".png") || strings.HasSuffix(info.Name(), ".mp4")) {
 			matches := re.FindStringSubmatch(info.Name())
 			if len(matches) > 1 {
 				postID := matches[1]

@@ -16,3 +16,5 @@ lilo_tormento
 lilo_tormento/*
 key.json
 run_cron.sh
+cookies.sqlite
+615_import_firefox_session.py
